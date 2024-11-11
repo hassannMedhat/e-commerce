@@ -1,0 +1,25 @@
+{
+  "orders": [
+    {
+      "id": "8a53",
+      "name": "Hassan Hassan",
+      "totalAmount": 750,
+      "items": {
+        "bb7b": {
+          "L": 1
+        }
+      },
+      "date": "2024-11-03T21:50:40.477Z",
+      "shippingDetails": {
+        "firstName": "Hassan",
+        "lastName": "Hassan",
+        "email": "s@s",
+        "street": "sdfsdf",
+        "city": "sdfsdf",
+        "country": "United Kingdom",
+        "phone": "234"
+      },
+      "paymentMethod": "cod"
+    }
+  ]
+}

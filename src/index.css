@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a.active hr{
+  display: block;
+} 
+
+*{
+  font-family: Outfit;
+}
+
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+
+@media (max-width:640px){
+  a.active{
+    background-color: black;
+    color: white;
+  }
+}
+
+/* src/components/CreditCard.css */
+
+/* في ملف src/index.css أو في ملف CSS منفصل للبطاقة */
+
+.credit-card-container {
+  perspective: 1000px;
+  width: 350px;
+  height: 200px;
+  margin: 20px auto;
+}
+
+.credit-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.credit-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: linear-gradient(45deg, #1a1a1a, #5a5a5a);
+  color: white;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.card-type {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card-number {
+  font-size: 22px;
+  margin-top: 60px;
+  letter-spacing: 2px;
+}
+
+.card-name, .card-expiry {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.card-strip {
+  background: #000;
+  height: 40px;
+  margin: 20px 0;
+}
+
+.card-signature {
+  background: #fff;
+  height: 40px;
+  margin: 20px 0;
+}
+
+.card-cvc, .card-expiry-back {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.card-cvc {
+  float: right;
+}
+
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px; /* Set a fixed width for the popup */
+}
+
+.size-input {
+  margin-bottom: 10px; /* Space between size inputs */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between; /* Space between buttons */
+  margin-top: 20px; /* Space above the button group */
+}

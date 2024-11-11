@@ -1,0 +1,83 @@
+{
+  "products": [
+    {
+      "id": "7da6",
+      "name": "product 22",
+      "price": "200",
+      "description": "new",
+      "category": "Women",
+      "type": "Bottomwear",
+      "image": "https://static.lefties.com/9/photos2/2024/I/0/1/p/1914/317/800/1914317800_2_5_2.jpg?t=1717075970978",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ]
+    },
+    {
+      "id": "5147",
+      "name": "product 123",
+      "price": "600",
+      "description": "new",
+      "category": "Women",
+      "type": "Winterwear",
+      "image": "https://static.lefties.com/9/photos2/2024/I/0/1/p/1026/317/800/1026317800_2_4_2.jpg?t=1724920366844",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ]
+    },
+    {
+      "id": "7d16",
+      "name": "Printonline Men's Drawstring Neck Hooded Sweatshirt",
+      "price": "500",
+      "description": "new",
+      "category": "Men",
+      "type": "Winterwear",
+      "image": "https://m.media-amazon.com/images/I/61tPyctcoHL._AC_SX679_.jpg",
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ]
+    },
+    {
+      "id": "d19f",
+      "name": "shirt",
+      "price": "200.5",
+      "description": "Fashion (Black)Plus Size 5XL-M British Style Solid Long Sleeve Shirt Men Clothing Simple Slim Fit Business Casual Chemise Homme Formal Wear Hot SMA",
+      "category": "Men",
+      "type": "Topwear",
+      "image": "https://eg.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/29/643074/1.jpg?9679",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ]
+    },
+    {
+      "id": "858f",
+      "name": "Sweatshirt",
+      "price": "3139",
+      "description": "newwwwwwwwwwwwwwwwwwww",
+      "category": "Men",
+      "type": "Topwear",
+      "image": "https://wayupsports.com/cdn/shop/files/852231719-3_Anta_3_f2fa6332-3e04-4152-b919-f6c1e0ce02fd.jpg?v=1700145404&width=800",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ]
+    }
+  ]
+}
