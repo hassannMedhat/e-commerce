@@ -27,6 +27,10 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
+      "react/no-unescaped-entities": "off", 
+      "no-console": "warn", 
+      "no-unused-vars": "warn",  
+      "react/react-in-jsx-scope": "warn" ,
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
