@@ -19,8 +19,9 @@ const ShopContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:7000/products");
+        const response = await fetch("http://localhost:4001/products");
         const data = await response.json();
+        console.log("Fetched Products:", data);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -196,6 +197,15 @@ const ShopContextProvider = ({ children }) => {
     }
   };
 
+  const clearCart = () => {
+    setCartItems({}); // Reset cart items to an empty object
+  };
+
+  // Function to set the current user
+  const loginUser = (user) => {
+    setCurrentUser(user);
+  };
+
   // Context value
   const value = {
     products,
@@ -221,6 +231,8 @@ const ShopContextProvider = ({ children }) => {
     navigate,
     showSearch,
     setShowSearch,
+    clearCart,
+    loginUser,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

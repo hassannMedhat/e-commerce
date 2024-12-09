@@ -27,15 +27,28 @@ const LatestCollection = () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
         {latestProducts.length > 0 ? (
-          latestProducts.map((item) => (
-            <ProductItem
-              key={item.id}
-              id={item.id}
-              image={item.image}
-              name={item.name}
-              price={item.price}
-            />
-          ))
+          latestProducts.map((item) => {
+            // Calculate total quantity of all sizes
+            const totalQuantity = item.sizes.reduce((acc, sizeObj) => acc + sizeObj.quantity, 0);
+
+            return (
+              <div key={item.id} className="relative">
+                <ProductItem
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  price={item.price}
+                  sizes={item.sizes || []} // Ensure sizes is passed as an array
+                />
+                {/* Display total quantity with a message if it is 5 or less */}
+                {totalQuantity <= 5 && totalQuantity > 0 && (
+                  <p className="text-red-600 mt-2 font-bold">
+                    Only {totalQuantity} left in stock! Hurry up!
+                  </p>
+                )}
+              </div>
+            );
+          })
         ) : (
           <p>No products available</p>
         )}

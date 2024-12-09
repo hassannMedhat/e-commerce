@@ -184,6 +184,7 @@ const Collection = () => {
               name={item.name}
               price={item.price}
               currency={currency}
+              sizes={item.sizes || []}
             />
           ))}
         </div>

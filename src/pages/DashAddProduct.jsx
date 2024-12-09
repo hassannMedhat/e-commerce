@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import Modal from 'react-modal';
 
 const DashAddProduct = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,11 @@ const DashAddProduct = () => {
     sizes: [] // إضافة مصفوفة للمقاسات
   });
 
+  const [sizeQuantities, setSizeQuantities] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [currentQuantity, setCurrentQuantity] = useState(0);
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     await handleFormSubmit();
@@ -19,12 +25,19 @@ const DashAddProduct = () => {
 
   const handleFormSubmit = async () => {
     try {
-      if (formData.sizes.length === 0) {
-        alert("Please select at least one size");
+      if (Object.keys(sizeQuantities).length === 0) {
+        alert("Please select at least one size with quantity");
         return;
       }
 
-      const response = await axios.post("http://localhost:7000/products", formData);
+      // Calculate total quantity
+      const totalQuantity = Object.values(sizeQuantities).reduce((acc, quantity) => acc + quantity, 0);
+
+      const response = await axios.post("http://localhost:4001/products", {
+        ...formData,
+        sizes: sizeQuantities,
+        totalQuantity // إضافة الكمية الإجمالية
+      });
 
       if (response.status === 200 || response.status === 201) {
         alert("Data submitted successfully");
@@ -38,6 +51,7 @@ const DashAddProduct = () => {
           type: '',
           sizes: [] // إعادة تعيين المقاسات
         });
+        setSizeQuantities({});
       } else {
         alert("Data submission failed");
       }
@@ -50,12 +64,25 @@ const DashAddProduct = () => {
   const availableSizes = ['S', 'M', 'L', 'XL', '2XL'];
 
   const handleSizeChange = (size) => {
-    setFormData(prevState => ({
-      ...prevState,
-      sizes: prevState.sizes.includes(size)
-        ? prevState.sizes.filter(s => s !== size)
-        : [...prevState.sizes, size]
+    setSelectedSize(size);
+    setIsModalOpen(true);
+  };
+
+  const handleQuantitySubmit = (quantity) => {
+    setSizeQuantities(prev => ({
+      ...prev,
+      [selectedSize]: (prev[selectedSize] || 0) + quantity
     }));
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteSize = () => {
+    setSizeQuantities(prev => {
+      const newQuantities = { ...prev };
+      delete newQuantities[selectedSize];
+      return newQuantities;
+    });
+    setIsModalOpen(false);
   };
 
   return (
@@ -151,16 +178,75 @@ const DashAddProduct = () => {
                 type="button"
                 onClick={() => handleSizeChange(size)}
                 className={`px-4 py-2 rounded border ${
-                  formData.sizes.includes(size)
-                    ? 'bg-blue-500 text-white border-blue-500'
-                    : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500'
+                  sizeQuantities[size] ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500'
                 }`}
               >
-                {size}
+                {size} {sizeQuantities[size] ? `(${sizeQuantities[size]})` : ''}
               </button>
             ))}
           </div>
         </div>
+
+        <Modal 
+          isOpen={isModalOpen} 
+          onRequestClose={() => setIsModalOpen(false)} 
+          style={{
+            content: {
+              width: '300px',
+              height: '250px',
+              margin: 'auto',
+              padding: '20px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+              backgroundColor: '#fff',
+            },
+            overlay: {
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            }
+          }}
+        >
+          <h2 style={{ textAlign: 'center', color: '#333' }}>Enter Quantity for "{selectedSize}"</h2>
+          <input
+            type="number"
+            min="1"
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '5px',
+              border: '1px solid #ccc',
+              marginBottom: '10px',
+            }}
+            onChange={(e) => setCurrentQuantity(Number(e.target.value))}
+          />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <button 
+              onClick={handleDeleteSize}
+              style={{
+                backgroundColor: '#f44336',
+                color: '#fff',
+                padding: '10px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+              }}
+            >
+              Delete
+            </button>
+            <button 
+              onClick={() => handleQuantitySubmit(currentQuantity)}
+              style={{
+                backgroundColor: '#4CAF50',
+                color: '#fff',
+                padding: '10px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </Modal>
 
         <button
           type="submit"

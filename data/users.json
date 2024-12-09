@@ -6,6 +6,13 @@
       "phone": "01011689611",
       "email": "hassan123@gmail.com",
       "password": "123"
+    },
+    {
+      "id": "afd8",
+      "name": "hi",
+      "phone": "123",
+      "email": "hi@gmail.com",
+      "password": "123"
     }
   ]
 }

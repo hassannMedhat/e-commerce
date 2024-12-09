@@ -8,7 +8,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:6000/orders`);
+        const response = await fetch(`http://localhost:4002/orders`);
         const data = await response.json();
         const userOrders = data.filter(order => order.customerName === currentUser.name);
         setOrders(userOrders);
@@ -23,7 +23,7 @@ const Orders = () => {
   }, [currentUser]);
 
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto p-5 animate__animated animate__fadeIn">
       <h1 className="text-2xl font-bold mb-4">My Orders</h1>
       {orders.length === 0 ? (
         <p>No orders found.</p>

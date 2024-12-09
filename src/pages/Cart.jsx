@@ -6,7 +6,7 @@ import CartTotal from "../components/CartTotal";
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { currency, cartItems, updateQuantity, removeFromCart, products, currentUser, getCartAmount } = useContext(ShopContext);
+  const { currency, cartItems, updateQuantity, removeFromCart, products, currentUser, getCartAmount, clearCart } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
   const [delivery_fee, setDeliveryFee] = useState(0);
   const navigate = useNavigate(); // تأكد من تعريف navigate هنا
@@ -66,7 +66,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="border-t pt-14">
+    <div className="border-t pt-14 animate__animated animate__fadeIn">
       <div className="text-2xl mb-3">
         <Title text1={"YOUR"} text2={"CART"} />
       </div>

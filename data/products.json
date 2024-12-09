@@ -9,12 +9,28 @@
       "type": "Bottomwear",
       "image": "https://static.lefties.com/9/photos2/2024/I/0/1/p/1914/317/800/1914317800_2_5_2.jpg?t=1717075970978",
       "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ]
+        {
+          "size": "S",
+          "quantity": 1
+        },
+        {
+          "size": "M",
+          "quantity": 1
+        },
+        {
+          "size": "L",
+          "quantity": 1
+        },
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "2XL",
+          "quantity": 1
+        }
+      ],
+      "totalQuantity": 5
     },
     {
       "id": "5147",
@@ -25,12 +41,28 @@
       "type": "Winterwear",
       "image": "https://static.lefties.com/9/photos2/2024/I/0/1/p/1026/317/800/1026317800_2_4_2.jpg?t=1724920366844",
       "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ]
+        {
+          "size": "S",
+          "quantity": 2
+        },
+        {
+          "size": "M",
+          "quantity": 1
+        },
+        {
+          "size": "L",
+          "quantity": 2
+        },
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "2XL",
+          "quantity": 1
+        }
+      ],
+      "totalQuantity": 7
     },
     {
       "id": "7d16",
@@ -41,11 +73,24 @@
       "type": "Winterwear",
       "image": "https://m.media-amazon.com/images/I/61tPyctcoHL._AC_SX679_.jpg",
       "sizes": [
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ]
+        {
+          "size": "M",
+          "quantity": 1
+        },
+        {
+          "size": "L",
+          "quantity": 1
+        },
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "2XL",
+          "quantity": 1
+        }
+      ],
+      "totalQuantity": 4
     },
     {
       "id": "d19f",
@@ -56,12 +101,28 @@
       "type": "Topwear",
       "image": "https://eg.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/29/643074/1.jpg?9679",
       "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ]
+        {
+          "size": "S",
+          "quantity": 2
+        },
+        {
+          "size": "M",
+          "quantity": 1
+        },
+        {
+          "size": "L",
+          "quantity": 2
+        },
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "2XL",
+          "quantity": 1
+        }
+      ],
+      "totalQuantity": 7
     },
     {
       "id": "858f",
@@ -72,12 +133,68 @@
       "type": "Topwear",
       "image": "https://wayupsports.com/cdn/shop/files/852231719-3_Anta_3_f2fa6332-3e04-4152-b919-f6c1e0ce02fd.jpg?v=1700145404&width=800",
       "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ]
+        {
+          "size": "S",
+          "quantity": 1
+        },
+        {
+          "size": "M",
+          "quantity": 1
+        },
+        {
+          "size": "L",
+          "quantity": 1
+        },
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "2XL",
+          "quantity": 1
+        }
+      ],
+      "totalQuantity": 5
+    },
+    {
+      "id": "976b",
+      "name": "jacket",
+      "price": "2000",
+      "description": "male coats & jackets",
+      "category": "Men",
+      "type": "Winterwear",
+      "image": "https://shop.iravin.com/cdn/shop/files/o197515a_540x.jpg?v=1730889960",
+      "sizes": [
+        {
+          "size": "XL",
+          "quantity": 1
+        },
+        {
+          "size": "M",
+          "quantity": 3
+        }
+      ],
+      "totalQuantity": 4
+    },
+    {
+      "id": "d57d",
+      "name": "Cuba - T-SHIRT",
+      "price": "700",
+      "description": "new",
+      "category": "Men",
+      "type": "Topwear",
+      "image": "https://townteam.com/cdn/shop/products/TSH23SCOT20531CM1_WHITE.jpg?v=1690443657",
+      "sizes": [
+        {
+          "size": "XL",
+          "quantity": 0
+        },
+        {
+          "size": "M",
+          "quantity": 0
+        }
+      ],
+      "totalQuantity": 0
     }
   ]
 }

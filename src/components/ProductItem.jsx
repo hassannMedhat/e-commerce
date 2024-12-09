@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FaHeart, FaBookmark } from 'react-icons/fa';
 
-const ProductItem = ({ id, image, name, price }) => {
+const ProductItem = ({ id, image, name, price, sizes = [] }) => {
   const {
     saveForLater,
     removeFromSaveForLater,
@@ -15,17 +15,16 @@ const ProductItem = ({ id, image, name, price }) => {
     currency,
   } = useContext(ShopContext);
 
-  console.log("Currency:", currency);
-
   const imgSrc = image || 'default-image-url.jpg';
   const productName = name || 'Unnamed Product';
   const productPrice = price !== undefined ? price : 0;
 
+  // Calculate total quantity of all sizes
+  const totalQuantity = sizes.reduce((acc, sizeObj) => acc + sizeObj.quantity, 0);
+  const isOutOfStock = totalQuantity === 0;
+
   const isSaved = savedForLater.includes(id);
   const isWishlisted = wishlist.includes(id);
-
-  console.log("Product Price:", productPrice);
-  console.log("Product Price Type:", typeof productPrice);
 
   return (
     <div className="relative">
@@ -39,8 +38,14 @@ const ProductItem = ({ id, image, name, price }) => {
         </div>
         <p className="pt-3 pb-1 text-sm">{productName}</p>
         <p className="text-sm font-medium">
-          {typeof productPrice === 'number' ? `${productPrice.toFixed(2)} ` : productPrice  + ` ${currency}`}
+          {typeof productPrice === 'number' ? `${productPrice.toFixed(2)} ` : productPrice + ` ${currency}`}
         </p>
+        {/* Display total quantity with a message if it is 5 or less */}
+        {totalQuantity <= 5 && totalQuantity > 0 && (
+          <p className="text-red-600 mt-2 font-bold">
+            Only {totalQuantity} left in stock! Hurry up!
+          </p>
+        )}
       </Link>
 
       <div className="absolute top-2 right-2 flex space-x-2">
@@ -68,6 +73,10 @@ ProductItem.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  sizes: PropTypes.arrayOf(PropTypes.shape({
+    size: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+  })).isRequired, // Ensure sizes prop is passed
 };
 
 export default ProductItem;

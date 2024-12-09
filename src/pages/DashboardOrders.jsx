@@ -8,7 +8,7 @@ const DashboardOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
         try {
-            const response = await fetch('http://localhost:6000/orders');
+            const response = await fetch('http://localhost:4002/orders');
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
@@ -27,7 +27,7 @@ const DashboardOrders = () => {
   };
 
   return (
-    <div className="border-t pt-16">
+    <div className="border-t pt-16 animate__animated animate__fadeIn">
       <div className="text-2xl mb-8">
         <Title text1={'DASHBOARD'} text2={'ORDERS'} />
       </div>

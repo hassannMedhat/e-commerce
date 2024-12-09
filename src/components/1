@@ -1,0 +1,1247 @@
+[ components ]
+1- CartTotal.jsx
+code: 
+import Title from "../components/Title";
+import { useContext } from "react";
+import { ShopContext } from "../context/ShopContext";
+
+const CartTotal = () => {
+  const { currency, delivery_fee, getCartAmount } = useContext(ShopContext);
+
+  return (
+    <div className="w-full">
+      <div className="text-2xl mb-4">
+        <Title text1={"CART"} text2={"TOTALS"} />
+      </div>
+
+      <div className="flex flex-col space-y-4 text-sm">
+        <div className="flex justify-between items-center">
+          <p className="text-gray-600">Subtotal</p>
+          <p>
+            {getCartAmount()}.00 {currency}
+          </p>
+        </div>
+        <div className="flex justify-between items-center">
+          <p className="text-gray-600">Shipping Fee</p>
+          <p>
+            {delivery_fee}.00 {currency}
+          </p>
+        </div>
+        <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+          <p className="font-medium">Total</p>
+          <p className="font-medium">
+            {getCartAmount() === 0 ? 0 : getCartAmount() + delivery_fee}.00
+            {currency}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CartTotal;
+
+2- Footer.jsx
+code :
+import { assets } from "../assets/frontend_assets/assets"
+
+
+const Footer = () => {
+  return (
+      <div>
+          <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm">
+              
+
+              <div>
+                  <img src={assets.logo} className="mb-5 w-32 " alt="" />
+                  <p className="w-full md:w-2/3 text-gray-600">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nisi. Quam placeat rem fugiat quia totam quod eos asperiores, doloribus, accusantium quo iure nisi ex iusto eveniet itaque? Doloribus, eaque.
+                  </p>
+              </div>
+
+              <div>
+                  <p className="text-xl font-medium mb-5">COMPANY</p>
+                  <ul className="flex flex-col gap-1 text-gray-600">
+                      <li>Home</li>
+                      <li>About us</li>
+                      <li>Delivery</li>
+                      <li>Privacy policy</li>
+                  </ul>
+              </div>
+
+              
+              <div>
+                  <p className="text-xl font-medium mb-5">GET IN TOUCH</p>
+                  <ul className="flex flex-col gap-1 text-gray-600">
+                      <li>+1234567890</li>
+                      <li>info@company.com</li>
+                  </ul>
+              </div>
+
+              </div>
+              <div>
+                  <hr />
+                  <p className="py-5 text-sm text-center">Copyright 2024@ kimit.com -  All Right Reserved.</p>
+
+              </div>
+
+
+
+          
+    </div>
+  )
+}
+
+export default Footer
+
+3- Hero.jsx
+code: import { assets } from '../assets/frontend_assets/assets'
+
+const Hero = () => {
+  return (
+      <div className='flex flex-col sm:flex-row border border-gray-400 '>
+          {/* Hero Left Side */}
+          <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
+              <div className='text-[#414141]'>
+                  <div className='flex items-center gap-2'>
+                      <p className='w-8 md:w-11 h-[2px] bg-[#414141]'></p>
+                      <p className='text-sm font-medium md:text-base'>OUR BESTSELLERS</p>
+                  </div>
+                  <h1 className='prata-regular text-3xl sm:py-3 lg:text-5xl leading-relaxed'>Latest Arrivals</h1>
+                  <div className='flex items-center gap-2'>
+                      <p className='font-semibold text-sm md:text-base'>SHOP NOW</p>
+                      <p className='w-8 md:w-11 h-[1px] bg-[#414141]'></p>
+                  </div>
+              </div>
+          </div>
+          {/* Hero Right Side */}
+          <img src={assets.hero_img} className='w-full sm:w-1/2' alt='' />
+    </div>
+  )
+}
+
+export default Hero
+
+
+4- LatestCollection.jsx
+code: 
+import  { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import ProductItem from "./ProductItem";
+import Title from "./Title";
+
+const LatestCollection = () => {
+  const { products } = useContext(ShopContext);
+  const [LatestProducts, setLatestProducts] = useState([]);
+
+  useEffect(() => {
+    if (products && products.length > 0) {
+      setLatestProducts(products.slice(0, 10));
+    }
+  }, [products]);
+
+
+
+  return (
+    <div className="my-10">
+      <div className="text-center py-8 text-3xl">
+        <Title text1={"LATEST"} text2={"COLLECTION"} />
+        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id, quidem
+          incidunt aperiam perspiciatis odit molestias, quis at eius officiis,
+          nemo molestiae. Dolorem rerum voluptatibus porro vero eaque ullam
+          expedita ea.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+        {LatestProducts.length > 0 ? (
+          LatestProducts.map((item) => (
+            <ProductItem
+              key={item._id}
+              id={item._id}
+              image={item.image}
+              name={item.name}
+              price={item.price}
+            />
+          ))
+        ) : (
+          <p>No products available</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default LatestCollection;
+
+
+5- Navbar.jsx
+code:
+import  { useContext, useState } from "react";
+import { assets } from "../assets/frontend_assets/assets";
+import { Link, NavLink } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+
+const Navbar = () => {
+  const [visible, setVisible] = useState(false);
+  const { setShowSearch, getCartCount } = useContext(ShopContext);
+
+  return (
+    <div className="flex justify-between items-center py-5 font-medium ">
+      <NavLink to='/'><img src={assets.logo} className="w-36" alt="" /></NavLink>
+
+      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+        <NavLink to="/" className="flex flex-col items-center gap-1">
+          <p>HOME</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/collection" className="flex flex-col items-center gap-1">
+          <p>COLLECTIONS</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/about" className="flex flex-col items-center gap-1">
+          <p>ABOUT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/contact" className="flex flex-col items-center gap-1">
+          <p>CONTACT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+      </ul>
+
+      <div className="flex gap-6 items-center">
+        <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
+
+        <div className="group relative">
+          <Link to='/login'><img
+            className="w-5 cursor-pointer"
+            src={assets.profile_icon}
+            alt=""
+          /></Link>
+          <div className="group-hover:block hidden dropdown-menu absolute p-5 right-0 pt-4 ">
+            <div className="flex flex-col gap-3 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+              <p className="cursor-pointer hover:text-black">My Profile</p>
+              <p className="cursor-pointer hover:text-black">Orders</p>
+              <p className="cursor-pointer hover:text-black">Logout</p>
+            </div>
+          </div>
+        </div>
+        <NavLink to="/cart" className="relative">
+          <img src={assets.cart_icon} className="w-5 min-w-5" alt="" />
+          <p className="absolute right-[-5px] bottom-[5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+            {getCartCount()}
+          </p>
+        </NavLink>
+
+        <img
+          onClick={() => setVisible(true)}
+          src={assets.menu_icon}
+          className="w-5 cursor-pointer sm:hidden"
+          alt=""
+        />
+      </div>
+
+      {/* SideBar menu for small screens */}
+      <div
+        className={`fixed top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
+          visible ? "w-64" : "w-0"
+        } flex flex-col z-50`}
+      >
+        <div className="flex flex-col text-gray-600">
+          <div
+            onClick={() => setVisible(false)}
+            className="flex items-center gap-4 p-4 cursor-pointer border-b"
+          >
+            <img src={assets.dropdown_icon} className="h-4 rotate-180" alt="" />
+            <p>Back</p>
+          </div>
+        </div>
+        <nav className="flex flex-col">
+          <NavLink onClick={() => setVisible(false)} className="py-3 px-6 border-b hover:bg-gray-100" to="/">HOME</NavLink>
+          <NavLink onClick={() => setVisible(false)} className="py-3 px-6 border-b hover:bg-gray-100" to="/collection">COLLECTION</NavLink>
+          <NavLink onClick={() => setVisible(false)} className="py-3 px-6 border-b hover:bg-gray-100" to="/about">ABOUT</NavLink>
+          <NavLink onClick={() => setVisible(false)} className="py-3 px-6 border-b hover:bg-gray-100" to="/contact">CONTACT</NavLink>
+        </nav>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
+
+
+6- NewsLetterBox.jsx
+code: 
+const NewsLetterBox = () => {
+
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+    }
+
+
+  return (
+      <div className="text-center ">
+          <p className="text-2xl font-medium text-gray-800">Subscribe now &  get 10% off</p>
+          <p className="text-gray-400 mt-3 ">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione veniam ipsa reprehenderit? Fugit tempora mollitia dolorem soluta saepe voluptatem omnis, voluptatum voluptates delectus voluptatibus eius vero, accusamus doloribus est quod?
+          </p>
+          <form onSubmit={onSubmitHandler} className="w-full sm:w-1/2 flex items-center gap-3 mx-auto my-6 pl-3 border">
+              <input className="w-full sm:flex-1 outline-none" type="email" placeholder="Enter your email" required/>
+              <button type="submit" className="bg-black text-white text-xs px-10 py-4">SUBSCRIBE</button>
+          </form>
+    </div>
+  )
+}
+
+export default NewsLetterBox
+
+
+7- OurPolicy.jsx
+code: 
+import { assets } from "../assets/frontend_assets/assets"
+
+const OurPolicy = () => {
+  return (
+    <div className="flex flex-col sm:flex-row  justify-around text-center gap-12 sm:gap-2 py-20 text-xs sm:text-sm md:text-base text-gray-700">
+
+      <div>
+        <img src={assets.exchange_icon} className="w-12 m-auto mb-5" alt="" />
+        <p className="font-semibold">Easy Exchange Policy</p>
+        <p className="text-gray-400">We offer hassle fee  exchange policy</p>
+      </div>
+      <div>
+        <img src={assets.quality_icon} className="w-12 m-auto mb-5" alt="" />
+        <p className="font-semibold">7 Days Return Policy</p>
+        <p className="text-gray-400">We provide 7 days free return policy</p>
+
+      </div>
+      <div>
+        <img src={assets.support_img} className="w-12 m-auto mb-5" alt="" />
+        <p className="font-semibold">Best customer support</p>
+
+        <p className="text-gray-400">We  provide 24/7 customer support</p>
+
+      </div>
+      
+    </div>
+  )
+}
+
+export default OurPolicy
+
+8- ProductItem.jsx
+code: 
+import { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+const ProductItem = ({ id, image, name, price }) => {
+
+  const { currency } = useContext(ShopContext);
+
+  return (
+    <Link className='text-gray-700 cursor-pointer' to={`/product/${id}`}>
+      <div className='overflow-hidden'>
+        <img className='hover:scale-110 transition ease-in-out' src={image[0]} alt={name} />
+      </div>
+      <p className='pt-3 pb-1 text-sm'>{name}</p>
+      <p className='text-sm font-medium'>{price} {currency}</p>
+    </Link>
+  );
+};
+
+
+ProductItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  image: PropTypes.arrayOf(PropTypes.string).isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+};
+
+export default ProductItem;
+
+
+9- RelatedProducts.jsx
+code :
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import Title from "../components/Title";
+import ProductItem from "../components/ProductItem";
+
+const RelatedProducts = ({ category, subCategory }) => {
+  const { products } = useContext(ShopContext);
+  const [related, setRelated] = useState([]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      let productsCopy = products.slice();
+      
+
+      productsCopy = productsCopy.filter((item) => category === item.category);
+      productsCopy = productsCopy.filter((item) => item.subCategory === subCategory);
+
+      setRelated(productsCopy.slice(0, 5));
+    }
+  }, [products, category, subCategory]);
+  return (
+    <div className="my-24">
+      <div className="text-center text-3xl py-2">
+        <Title text1={"RELATED"} text2={"PRODUCTS"} />
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+        {related.map((item, index) => (
+          <ProductItem
+            key={index}
+            id={item._id}
+            name={item.name}
+            image={item.image}
+            price={item.price}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default RelatedProducts;
+
+10- SearchBar.jsx
+code: 
+import { useContext, useEffect } from 'react'; 
+import { ShopContext } from '../context/ShopContext';
+import { assets } from '../assets/frontend_assets/assets';
+import { useLocation } from 'react-router-dom';
+
+const SearchBar = () => {
+  const { search, setSearch, showSearch, setShowSearch } = useContext(ShopContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes('collection')) {
+      setShowSearch(true);
+    } else {
+      setShowSearch(false);
+    }
+  }, [location, setShowSearch]);
+
+  if (!showSearch) {
+    return null;
+  }
+
+  return (
+    <div className="border-t border-b bg-gray-50 text-center">
+      <div className="inline-flex items-center justify-center border border-gray-400 rounded-full px-5 py-2 my-5 mx-3 w-3/4 sm:w-1/2">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1 outline-none bg-inherit text-sm"
+          type="text"
+          placeholder="Search"
+        />
+        <img className="w-4" src={assets.search_icon} alt="search icon" />
+      </div>
+      <img
+        onClick={() => setShowSearch(false)}
+        className="inline w-3 cursor-pointer"
+        src={assets.cross_icon}
+        alt="close icon"
+      />
+    </div>
+  );
+};
+
+export default SearchBar;
+
+11- Title.jsx
+code:
+import PropTypes from 'prop-types';
+
+const Title = ({text1, text2}) => {
+  return (
+    <div className='inline-flex gap-2 items-center mb-3'>
+      <p className='text-gray-500'>{text1} <span className='text-gray-700 font-medium'> {text2} </span></p>
+      <p className=' w-8 sm:2-12 h-[1px] sm:h-[2px] bg-gray-700'></p>
+    </div>
+  );
+};
+
+
+Title.propTypes = {
+  text1: PropTypes.string.isRequired, 
+  text2: PropTypes.string.isRequired,
+  };
+
+export default Title;
+
+
+[context]
+1- ShopContext.jsx
+code: 
+import { createContext, useState } from 'react';
+import PropTypes from 'prop-types'; 
+import { products } from '../assets/frontend_assets/assets';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
+export const ShopContext = createContext();
+
+const ShopContextProvider = (props) => {
+  const currency = 'EGP';
+  const delivery_fee = 10;
+  const [search, setSearch] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
+  const [cartItems, setCartItems] = useState({});
+  const navigate = useNavigate();
+
+  const addToCart = async (itemId, size) => {
+    if (!size) {
+      toast.error('Select Product Size');
+      return;
+    }
+    
+    let cartData = structuredClone(cartItems);
+
+    if (cartData[itemId]) {
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
+      } else {
+        cartData[itemId][size] = 1;
+      }
+    } else {
+      cartData[itemId] = {};
+      cartData[itemId][size] = 1;
+    }
+    setCartItems(cartData);
+  };
+
+  const getCartCount = () => {
+    let totalCount = 0;
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        try {
+          if (cartItems[items][item] > 0) {
+            totalCount += cartItems[items][item];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    return totalCount;
+  };
+
+  
+
+  const updateQuantity = async (itemId,size,quantity) => {
+    let cartData = structuredClone(cartItems);
+
+
+    cartData[itemId][size] = quantity;
+    setCartItems(cartData);
+  }
+
+  
+  const getCartAmount =  () => {
+    let totalAmount = 0;
+    for (const items in cartItems) {
+      let itemInfo = products.find((product) => product._id === items);
+      for (const item in cartItems[items]) {
+        try {
+          if (cartItems[items][item] > 0) {
+            totalAmount += itemInfo.price * cartItems[items][item];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    return totalAmount;
+  };
+  
+
+
+
+  
+  const value = {
+    products,
+    currency,
+    delivery_fee,
+    search,
+    setSearch,
+    showSearch,
+    setShowSearch,
+    cartItems,
+    addToCart,
+    getCartCount,
+    updateQuantity,
+    getCartAmount,
+    navigate
+  };
+
+  return (
+    <ShopContext.Provider value={value}>
+      {props.children}
+    </ShopContext.Provider>
+  );
+};
+
+ShopContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default ShopContextProvider;
+
+
+[pages]
+1- Cart.jsx
+code: import { useContext, useEffect, useState } from "react";
+import Title from "../components/Title";
+import { ShopContext } from "../context/ShopContext";
+import { assets, products } from "../assets/frontend_assets/assets";
+import CartTotal from "../components/CartTotal";
+
+const Cart = () => {
+  const { currency, cartItems, updateQuantity, navigate } = useContext(ShopContext);
+  const [cartData, setCartData] = useState([]);
+
+  useEffect(() => {
+    const tempData = [];
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        if (cartItems[items][item] > 0) {
+          tempData.push({
+            _id: items,
+            size: item,
+            quantity: cartItems[items][item],
+          });
+        }
+      }
+    }
+    setCartData(tempData);
+  }, [cartItems]);
+
+  return (
+    <div className="border-t pt-14">
+      <div className="text-2xl mb-3">
+        <Title text1={"YOUR"} text2={"CART"} />
+      </div>
+
+      <div className="">
+        {cartData.map((item, index) => {
+          const productData = products.find(
+            (product) => product._id === item._id
+          );
+
+          return (
+            <div
+              className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+              key={index}
+            >
+              <div className="flex items-start gap-6">
+                <img className="w-16 sm:w-20" src={productData.image[0]} alt="" />
+                <div>
+                  <p className="text-xs sm:text-lg font-medium">
+                    {productData.name}
+                  </p>
+                  <div className="flex items-center gap-5 mt-2">
+                    <p>
+                      {productData.price} {currency}
+                    </p>
+                    <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                      {item.size}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <input
+                onChange={(e) =>
+                  e.target.value === "" || e.target.value === "0"
+                    ? null
+                    : updateQuantity(item._id, item.size, Number(e.target.value))
+                }
+                className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+                type="number"
+                min={1}
+                defaultValue={item.quantity}
+              />
+              <img
+                onClick={() => updateQuantity(item._id, item.size, 0)}
+                className="w-4 mr-4 sm:w-5 cursor-pointer"
+                src={assets.bin_icon}
+                alt=""
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex justify-end my-20">
+        <div className="w-full sm:w-[450px]">
+          <CartTotal />
+          <div className="w-full text-end">
+             <button onClick={()=>navigate('/place-order')} className="bg-black text-white text-sm  my-8 px-8 py-3">PROCEED TO CHECKOUT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Cart;
+
+2- Collection.jsx
+code :
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import { assets } from "../assets/frontend_assets/assets";
+import Title from "../components/Title";
+import ProductItem from "../components/ProductItem";
+
+const Collection = () => {
+  const { products, search, showSearch } = useContext(ShopContext);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterProducts, setFilterProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+  const [sortType, setSortType] = useState("relevant");
+
+  const toggleCategory = (e) => {
+    setCategory((prev) =>
+      prev.includes(e.target.value)
+        ? prev.filter((item) => item !== e.target.value)
+        : [...prev, e.target.value]
+    );
+  };
+
+  const toggleSubCategory = (e) => {
+    setSubCategory((prev) =>
+      prev.includes(e.target.value)
+        ? prev.filter((item) => item !== e.target.value)
+        : [...prev, e.target.value]
+    );
+  };
+
+  const applyFilters = (productsList) => {
+    let filtered = [...productsList];
+
+    if (showSearch && search) {
+      filtered = filtered.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (category.length > 0) {
+      filtered = filtered.filter((item) => category.includes(item.category));
+    }
+    if (subCategory.length > 0) {
+      filtered = filtered.filter((item) => subCategory.includes(item.subCategory));
+    }
+    return filtered;
+  };
+
+  const sortProducts = (productsToSort) => {
+    let sortedProducts = [...productsToSort];
+    switch (sortType) {
+      case "low-high":
+        return sortedProducts.sort((a, b) => a.price - b.price);
+      case "high-low":
+        return sortedProducts.sort((a, b) => b.price - a.price);
+      default:
+        return sortedProducts;
+    }
+  };
+
+  useEffect(() => {
+
+    let filtered = applyFilters(products);
+    let sorted = sortProducts(filtered);
+    setFilterProducts(sorted);
+  }, [category, subCategory, products, sortType, search, showSearch]);
+
+  return (
+    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
+      {/* Filter Section */}
+      <div className="min-w-60">
+        <p
+          onClick={() => setShowFilter(!showFilter)}
+          className="my-2 text-xl flex items-center cursor-pointer gap-2"
+        >
+          FILTERS
+          <img
+            className={`h-3 sm-hidden ${showFilter ? "rotate-90" : ""}`}
+            src={assets.dropdown_icon}
+            alt=""
+          />
+        </p>
+
+        {/* Category Filter */}
+        <div
+          className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? "" : "hidden"} sm:block`}
+        >
+          <p className="mb-3 text-sm font-medium">CATEGORIES</p>
+          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Men"}
+                onChange={toggleCategory}
+              />{" "}
+              Men
+            </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Women"}
+                onChange={toggleCategory}
+              />{" "}
+              Women
+            </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Kids"}
+                onChange={toggleCategory}
+              />{" "}
+              Kids
+            </p>
+          </div>
+        </div>
+
+        {/* Subcategory Filter */}
+        <div
+          className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? "" : "hidden"} sm:block`}
+        >
+          <p className="mb-3 text-sm font-medium">TYPE</p>
+          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Topwear"}
+                onChange={toggleSubCategory}
+              />{" "}
+              Topwear
+            </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Bottomwear"}
+                onChange={toggleSubCategory}
+              />{" "}
+              Bottomwear
+            </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Winterwear"}
+                onChange={toggleSubCategory}
+              />{" "}
+              Winterwear
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Display Section */}
+      <div className="flex-1">
+        <div className="flex justify-between text-base sm:text-2xl mb-4">
+          <Title text1={"ALL"} text2={"COLLECTIONS"} />
+          <select
+            onChange={(e) => setSortType(e.target.value)}
+            className="border-2 border-gray-300 text-sm px-2"
+          >
+            <option value="relevant">Sort by: Relevant</option>
+            <option value="low-high">Sort by: Low to High</option>
+            <option value="high-low">Sort by: High to Low</option>
+          </select>
+        </div>
+
+         {/*                                            Product Grid                                               */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+          {filterProducts.map((item, index) => (
+            <ProductItem
+              key={index}
+              name={item.name}
+              id={item._id}
+              price={item.price}
+              image={item.image}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Collection;
+
+3- Home.jsx
+code:
+import Hero from "../components/Hero";
+import LatestCollection from "../components/LatestCollection";
+import BestSeller from "../components/BestSeller";
+import OurPolicy from "../components/OurPolicy";
+import NewsLetterBox from "../components/NewsLetterBox";
+
+
+const Home = () => {
+  return (
+    <div>
+      <Hero />
+      <LatestCollection />
+      <BestSeller />
+      <OurPolicy />
+      <NewsLetterBox />
+    </div>
+  );
+};
+
+export default Home;
+
+
+4- Orders.jsx
+code:
+import { useContext } from "react"
+import { ShopContext } from "../context/ShopContext"
+import Title from "../components/Title";
+
+const Orders = () => {
+  const { products, currency } = useContext(ShopContext);
+  
+  
+  
+  
+  
+  return (
+    <div className="border-t pt-16">
+      <div className="text-2xl">
+        <Title text1={'MY'} text2={'ORDERS'} />
+      </div>
+      <div>
+        {
+          products.slice(1, 4).map((item, index) => (
+            <div className="py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4" key={index}>
+              <div className="flex items-start gap-6 text-sm">
+                <img className="w-16 sm:w-20" src={item.image[0]} alt="" />
+                <div>
+                  <p className="sm:text-base font-medium">{item.name}</p>
+                  <div className="flex items-center gap-3 mt-2 text-base text-gray-700">
+                    <p className="text-lg">{item.price} {currency}</p>
+                    <p>Quantity: 1</p>
+                    <p>size: M</p>
+                  </div>
+                  <p className="mt-2">Date: <span className="text-gray-400">25, Jul, 2024</span></p>
+                </div>
+              </div>
+              <div className="md:w-1/2 flex justify-between">
+                <div className="flex items-center gap-2">
+                  <p className="min-w-2 h-2 rounded-full bg-green-500"></p>
+                  <p className="text-sm md:text-base">Ready to ship</p>
+                </div>
+                <button className="border px-4 py-2 text-sm font-medium rounded-sm">Track Order</button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  )
+}
+
+export default Orders
+
+5- PlaceOrder.jsx
+code:
+import { useContext, useState } from "react";
+import { assets } from "../assets/frontend_assets/assets";
+import CartTotal from "../components/CartTotal";
+import Title from "../components/Title";
+import { ShopContext } from "../context/ShopContext";
+
+const PlaceOrder = () => {
+  const [method, setMethod] = useState('cod');
+  const { navigate } = useContext(ShopContext);
+
+
+
+  
+  return (
+    <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t">
+      {/* Left Side */}
+      <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
+        <div className="text-xl sm:text-2xl my-3">
+          <Title text1={'DELIVERY'} text2={'INFORMATION'} />
+        </div>
+        <div className="flex gap-3">
+          <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="First name" />
+          <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="Last name" />
+        </div>
+        <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="email" placeholder="Email address" />
+        <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="Street" />
+        <div className="flex gap-3">
+          <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="City" />
+          <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="State" />
+        </div>
+        <div className="flex gap-3">
+          <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="text" placeholder="Country" />
+        </div>
+        <input className="border border-gray-300 rounded py-1.5 px-3.5 w-full" type="number" placeholder="Phone" />
+      </div>
+      {/* Right Side */}
+      <div className="mt-8">
+        <div className="mt-8 min-w-80">
+          <CartTotal />
+        </div>
+
+        <div className="mt-12">
+          <Title text1={'PAYMENT'} text2={'METHOD'} />
+          {/* Payment Method Selection */}
+          <div className="flex gap-3 flex-col lg:flex-row">
+            <div onClick={() => setMethod('stripe')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-400' : ''}`}></p>
+              <img className="h-5 mx-4" src={assets.stripe_logo} alt="" />
+            </div>
+            <div onClick={() => setMethod('razorpay')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-400' : ''}`}></p>
+              <img className="h-5 mx-4" src={assets.razorpay_logo} alt="" />
+            </div>
+            <div onClick={() => setMethod('cod')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'cod' ? 'bg-green-400' : ''}`}></p>
+              <p className="text-gray-500 text-sm font-medium mx-4">CASH ON DELIVERY</p>
+            </div>
+          </div>
+        </div>
+        <div className="w-full text-end mt-8">
+          <button onClick={()=> navigate('/orders')} className="bg-black text-white px-16 py-3 text-sm">PLACE ORDER</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PlaceOrder;
+
+6- Product.jsx
+code:
+import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+import { assets } from "../assets/frontend_assets/assets";
+import RelatedProducts from "../components/RelatedProducts";
+
+const Product = () => {
+  const { productId } = useParams();
+  const { products, currency, addToCart } = useContext(ShopContext);
+  const [productData, setProductData] = useState(null);
+  const [image, setImage] = useState("");
+  const [size, setSize] = useState('');
+
+  const fetchProductData = () => {
+    if (products && products.length > 0) {
+      products.forEach((item) => {
+        if (item._id === productId) {
+          setProductData(item);
+          setImage(item.image[0]);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchProductData();
+  }, [productId, products]);
+
+  return productData ? (
+    <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
+      {/* Product Data */}
+      <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
+        {/* Product Images */}
+        <div className="flex-1 flex flex-row-reverse gap-3 sm:flex-row">
+          <div className="flex flex-col sm:flex-col overflow-y-auto sm:w-[18.7%] w-full">
+            {productData.image.map((item, index) => (
+              <img
+                onClick={() => setImage(item)}
+                src={item}
+                key={index}
+                className="w-full object-cover cursor-pointer flex-grow"
+                style={{ aspectRatio: "1 / 1" }}
+                alt=""
+              />
+            ))}
+          </div>
+          <div className="w-full sm:w-[80%]">
+            <img
+              className="w-full h-auto object-cover"
+              src={image}
+              alt=""
+              style={{ aspectRatio: "1 / 1" }}
+            />
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="flex-1">
+          <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
+          <div className="flex items-center gap-2 mt-2">
+            <img src={assets.star_icon} alt="" className="w-3 5" />
+            <img src={assets.star_icon} alt="" className="w-3 5" />
+            <img src={assets.star_icon} alt="" className="w-3 5" />
+            <img src={assets.star_icon} alt="" className="w-3 5" />
+            <img src={assets.star_dull_icon} alt="" className="w-3 5" />
+            <p className="pl-2">(122)</p>
+          </div>
+          <p className="mt-5 text-3xl font-medium">
+            {productData.price} {currency}
+          </p>
+          <p className="mt-5 text-gray-500 md:w-4/5">
+            {productData.description}
+          </p>
+          <div className="flex flex-col gap-4 my-8">
+            <p>Select Size</p>
+            <div className="flex gap-2">
+              {productData.sizes.map((item, index) => (
+                <button
+                  onClick={() => setSize(item)}
+                  className={`border py-2 px-4 bg-gray-100 ${
+                    item === size ? "border-orange-500" : ""
+                  }`} // Fix applied here
+                  key={index}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button onClick={() => addToCart(productData._id, size)} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+            ADD TO CART
+          </button>
+          <hr className="mt-8 sm:w-4/5" />
+          <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
+            <p>100% Original product</p>
+            <p>Cash on delivery available on this product</p>
+            <p>Easy  return and exchange policy within 7 days</p>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      {/* Description & Review Section */}
+      <div className="mt-20">
+        <div className="flex">
+          <b className="border px-5 py-3 text-sm">Description</b>
+          <p className="border px-5 py-3 text-sm">Reviews (122)</p>
+        </div>
+        <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500">
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi odit facere ipsa sint dolor itaque praesentium natus quidem quam numquam quae et quis nam, rerum ut libero labore placeat debitis.</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aut neque vel ducimus dignissimos similique obcaecati? Quod debitis officia excepturi illum illo sit unde praesentium vel, corporis sint veniam quasi! Rerum!</p>
+
+        </div>
+      </div>
+      
+
+{/* display related products */}
+<RelatedProducts category={productData.category} subCategory={productData.subCategory} /> 
+      
+    </div>
+  ) : (
+    <div className="opacity-0"></div>
+  );
+};
+
+export default Product;
+
+
+
+- App.jsx
+code : import { Routes,Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Collection from './pages/Collection'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import Product from './pages/Product'
+import Cart from './pages/Cart'
+// import Login from './pages/Login'
+import PlaceOrder from './pages/PlaceOrder'
+import Orders from './pages/Orders'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import SearchBar from './components/SearchBar'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+function App() {
+  return (
+    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+      <ToastContainer />
+      <Navbar />
+      <SearchBar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/collection' element={<Collection />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/product/:productId' element={<Product />} />
+        <Route path='/cart' element={<Cart />} />
+        {/* <Route path='/login' element={<Login />} /> */}
+        <Route path='/place-order' element={<PlaceOrder />} />
+        <Route path='/orders' element={<Orders />} />
+      </Routes>
+      <Footer />
+    </div>
+  )
+}
+
+export default App
+
+
+
+- main.jsx
+code:
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import { BrowserRouter } from 'react-router-dom'
+import ShopContextProvider from './context/ShopContext.jsx'
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <ShopContextProvider>
+      <App />
+    </ShopContextProvider>
+  </BrowserRouter>
+); 
+
+
+
+
+
+
+
+
+
+
+"products": [
+  {
+    "id":1,
+    "name": "Product 1",
+    "price": 200
+
+  }
+]

@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { assets } from "../assets/frontend_assets/assets";
 import CartTotal from "../components/CartTotal";
 import Title from "../components/Title";
@@ -9,11 +10,28 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../index.css';
 import CreditCard from '../components/CreditCard';
 
+let lastOrderId = new Set(); // Use a Set to store unique order IDs
+
+const generateUniqueId = () => {
+    let id;
+    do {
+        id = Math.random().toString(36).substring(2, 8); // Generate a random string of 6 characters
+    } while (lastOrderId.has(id)); // Ensure the ID is unique
+    lastOrderId.add(id); // Add the new ID to the Set
+    return id;
+};
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
-  const { getCartAmount, cartItems } = useContext(ShopContext);
+  const { currentUser, getCartAmount, cartItems, clearCart } = useContext(ShopContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const orderData = location.state?.orderData;
+
+  if (!orderData) {
+    return <div>No order data available.</div>;
+  }
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -39,49 +57,48 @@ const PlaceOrder = () => {
   };
 
   const handlePlaceOrder = async () => {
-    // Validate form data
-    const requiredFields = ['firstName', 'lastName', 'email', 'street', 'city', 'country', 'phone'];
-    const emptyFields = requiredFields.filter(field => !formData[field] || formData[field].trim() === '');
+    const orderId = generateUniqueId(); // Generate a unique order ID
 
-    if (emptyFields.length > 0) {
-      toast.error(`Please fill the following fields: ${emptyFields.join(', ')}`);
-      return;
-    }
-
-    // Create new order
-    const newOrder = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      totalAmount: getCartAmount(),
-      items: cartItems,
-      date: new Date().toISOString(),
-      shippingDetails: formData,
-      paymentMethod: method
+    const newOrderData = {
+      id: orderId, // Use the generated unique ID
+      customerName: currentUser.name,
+      customerPhone: currentUser.phone,
+      items: orderData.items,
+      shippingFee: orderData.shippingFee,
+      totalAmount: orderData.totalAmount,
     };
 
     // Send new order to the API
     try {
-      const response = await fetch('http://localhost:6000/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newOrder),
-      });
+        const response = await fetch('http://localhost:4002/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newOrderData),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to place order');
-      }
+        if (!response.ok) {
+            throw new Error('Failed to place order');
+        }
 
-      // Optionally, you can handle the response here if needed
+        // Clear the cart after the order is placed
+        clearCart(); // Call the function to clear the cart
+
+        toast.success(`Order placed successfully! Your order number is #${orderId}`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+
+        // Navigate to the order confirmation page or wherever needed
+        navigate('/orders');
     } catch (error) {
-      toast.error('Error placing order: ' + error.message);
-      return;
+        toast.error('Error placing order: ' + error.message);
     }
-
-    // Set orderSuccess in sessionStorage
-    sessionStorage.setItem('orderSuccess', 'true');
-
-    navigate('/orders');
   };
 
   const handleSaveVisaCard = () => {
@@ -285,7 +302,7 @@ const PlaceOrder = () => {
               <button onClick={handleCloseVisaPopup} className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-150">
                 Close
               </button>
-              <button onClick={handleSaveVisaCard} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150">
+              <button onClick={handleSaveVisaCard} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150 animate__animated animate__pulse">
                 Save
               </button>
             </div>
