@@ -5,38 +5,14 @@ import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from '../assets/frontend_assets/assets';
-import { toast } from "react-toastify";
-
-
-
-const checkUserAuth = async () => {
-  if (!currentUser) return false; // Check if currentUser is null
-  try {
-    const response = await fetch(`http://localhost:4000/users`);
-    const users = await response.json();
-    return users.some(user => user.id === currentUser.id);
-  } catch (error) {
-    return false;
-  }
-};
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(ShopContext);
   const { getCartCount } = useContext(ShopContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isAuthenticatedFunction = async () => {
-    const isAuthenticated = await checkUserAuth();
-    if (!isAuthenticated) {
-      toast.error("Please log in to add items to your cart");
-      return false
-    } else{
-      return true
-    }
-  }
 
 
-  console.log(isAuthenticatedFunction())
   return (
     <div className="flex justify-between items-center py-5 font-medium">
       <NavLink to='/'><img src={assets.logo} className="w-36" alt="Logo" /></NavLink>
