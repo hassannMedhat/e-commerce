@@ -45,7 +45,7 @@ const Collection = () => {
 
     if (subCategory.length > 0) {
       productsCopy = productsCopy.filter((item) =>
-        subCategory.includes(item.subCategory)
+        subCategory.includes(item.type)
       );
     }
     return productsCopy;
