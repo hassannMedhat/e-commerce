@@ -11,6 +11,12 @@ export const Login = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "test@test.com",
+    password: "123",
+  });
+  const [formDataSignUp, setFormDataSignUp] = useState({
+    name: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -18,6 +24,11 @@ export const Login = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     await handleFormSubmit();
+  };
+
+  const onSubmitHandlerSignUp = async (event) => {
+    event.preventDefault();
+    await handleFormSubmitSignup();
   };
 
   const handleFormSubmit = async () => {
@@ -35,16 +46,7 @@ export const Login = () => {
         } else {
           toast.error("Invalid email or password");
         }
-      } else {
-        response = await axios.post("http://localhost:4000/users", formData);
-        if (response.status === 200 || response.status === 201) {
-          toast.success("Account created successfully");
-          setCurrentUser(formData);
-          navigate("/");
-        } else {
-          alert("Data submission failed");
-        }
-      }
+      } 
     } catch (error) {
       console.error("There was an error!", error);
       toast.error("An error occurred,  please try again later.");
@@ -59,33 +61,61 @@ export const Login = () => {
     });
   };
 
+
+  const handleFormSubmitSignup = async () => {
+    try {
+      let response;
+      if (currentState === "SignUp")  {
+        response = await axios.post("http://localhost:4000/users", formDataSignUp);
+        if (response.status === 200 || response.status === 201) {
+          toast.success("Account created successfully");
+          setCurrentUser(formDataSignUp);
+          navigate("/");
+        } else {
+          alert("Data submission failed");
+        }
+      }
+    } catch (error) {
+      console.error("There was an error!", error);
+      toast.error("An error occurred,  please try again later.");
+
+    }
+
+    setFormDataSignUp({
+      name: "",
+      phone: "",
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <form
-      onSubmit={onSubmitHandler}
+      onSubmit={currentState === "SignUp" ? onSubmitHandlerSignUp : onSubmitHandler}
       className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
     >
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className="prata-regular text-3xl">{currentState}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
       </div>
-      {currentState === "Sign Up" && (
+      {currentState === "SignUp" && (
         <>
           <input
             className="w-full px-3 py-2 border border-gray-800"
             type="text"
             placeholder="Name"
             required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            value={formDataSignUp.name}
+            onChange={(e) => setFormDataSignUp({ ...formDataSignUp, name: e.target.value })}
           />
           <input
             className="w-full px-3 py-2 border border-gray-800"
             type="text"
             placeholder="Phone"
             required
-            value={formData.phone}
+            value={formDataSignUp.phone}
             onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
+              setFormDataSignUp({ ...formDataSignUp, phone: e.target.value })
             }
           />
         </>
@@ -95,7 +125,7 @@ export const Login = () => {
         type="email"
         placeholder="Email"
         required
-        value={formData.email}
+        value={currentState === "SignUp" ? formDataSignUp.email : formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
       />
       <input
@@ -103,14 +133,14 @@ export const Login = () => {
         type="password"
         placeholder="Password"
         required
-        value={formData.password}
+        value={currentState === "SignUp" ? formDataSignUp.email : formData.password}
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       />
       <div className="w-full flex justify-between text-sm mt-[-8px]">
         <p className="cursor-pointer">Forgot Password?</p>
         {currentState === "Login" ? (
           <p
-            onClick={() => setCurrentState("Sign Up")}
+            onClick={() => setCurrentState("SignUp")}
             className="cursor-pointer"
           >
             Create account
@@ -126,9 +156,9 @@ export const Login = () => {
       </div>
       <button
         type="submit"
-        className="bg-black text-white font-light px-8 py-2 mt-4"
+        className="bg-black text-white font-light px-8 py-2 mt-4 "
       >
-        {currentState === "Login" ? "Sign In" : "Sign Up"}
+        {currentState === "Login" ? "Sign In" : "SignUp"}
       </button>
     </form>
   );

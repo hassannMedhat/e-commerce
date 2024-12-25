@@ -27,7 +27,7 @@ const SignUp = () => {
       return;
     }
 
-    const response = await fetch("http://localhost:5173/api/user/signup", {
+    const response = await fetch("/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

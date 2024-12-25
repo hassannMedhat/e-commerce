@@ -66,16 +66,17 @@ const DashboardOrders = () => {
               <h3 className="text-xl font-semibold mb-4">Order Details</h3>
               <p><strong>Order ID:</strong> {selectedOrder.id}</p>
               <p><strong>Customer:</strong> {selectedOrder.name}</p>
+              <p><strong>phone number:</strong> {selectedOrder.shippingDetails.phone}</p>
               <p><strong>Total Amount:</strong> {selectedOrder.totalAmount} EGP</p>
               <p><strong>Date:</strong> {new Date(selectedOrder.date).toLocaleString()}</p>
               <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
               <h4 className="font-semibold mt-4 mb-2">Shipping Details:</h4>
-              <p>{selectedOrder.shippingDetails.street}</p>
               <p>{selectedOrder.shippingDetails.city} </p>
               <p>{selectedOrder.shippingDetails.country}</p>
               <h4 className="font-semibold mt-4 mb-2">Items:</h4>
               <ul>
                 {Object.entries(selectedOrder.items).map(([itemId, details]) => (
+              
                   <li key={itemId}>
                     {itemId}: 
                     {Object.entries(details).map(([size, quantity]) => (

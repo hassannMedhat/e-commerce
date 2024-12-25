@@ -1,17 +1,47 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 // Navbar.jsx
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from '../assets/frontend_assets/assets';
+import { toast } from "react-toastify";
+
+
+
+const checkUserAuth = async () => {
+  if (!currentUser) return false; // Check if currentUser is null
+  try {
+    const response = await fetch(`http://localhost:4000/users`);
+    const users = await response.json();
+    return users.some(user => user.id === currentUser.id);
+  } catch (error) {
+    return false;
+  }
+};
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(ShopContext);
-  const {getCartCount } = useContext(ShopContext);
+  const { getCartCount } = useContext(ShopContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const isAuthenticatedFunction = async () => {
+    const isAuthenticated = await checkUserAuth();
+    if (!isAuthenticated) {
+      toast.error("Please log in to add items to your cart");
+      return false
+    } else{
+      return true
+    }
+  }
+
+
+  console.log(isAuthenticatedFunction())
   return (
     <div className="flex justify-between items-center py-5 font-medium">
       <NavLink to='/'><img src={assets.logo} className="w-36" alt="Logo" /></NavLink>
-
+      {/* للpc
+       والشاشات الكبيرة */}
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>HOME</p>
@@ -39,11 +69,12 @@ const Navbar = () => {
             <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
           </NavLink>
         )}
-
-        <NavLink to="/dashboard" className="flex flex-col items-center gap-1">
+        {currentUser && (
+          <NavLink to="/dashboard" className="flex flex-col items-center gap-1">
           <p>DASHBOARD</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
         </NavLink>
+        )}
       </ul>
 
       <div className="flex gap-6 items-center">
@@ -75,7 +106,47 @@ const Navbar = () => {
           src={assets.menu_icon}
           className="w-5 cursor-pointer sm:hidden"
           alt="Menu"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         />
+        
+        {/* القائمة الجانبية للتليفون */}
+        {isMenuOpen && (
+          <div className="fixed top-0 left-0 bottom-0 h-screen w-64 bg-white shadow-lg lg:hidden transition-transform transform translate-x-0 z-40">
+            <div className="p-4 flex flex-col gap-6">
+        <NavLink to="/" className="flex flex-col items-center gap-1">
+          <p>HOME</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/collection" className="flex flex-col items-center gap-1">
+          <p>COLLECTIONS</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/about" className="flex flex-col items-center gap-1">
+          <p>ABOUT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        <NavLink to="/contact" className="flex flex-col items-center gap-1">
+          <p>CONTACT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+
+        {!currentUser && (
+          <NavLink to="/login" className="flex flex-col items-center gap-1">
+            <p>LOGIN</p>
+            <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+          </NavLink>
+        )}
+
+        <NavLink to="/dashboard" className="flex flex-col items-center gap-1">
+          <p>DASHBOARD</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" hidden />
+        </NavLink>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

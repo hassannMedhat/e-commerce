@@ -21,5 +21,13 @@
       "email": "s@s",
       "password": "123"
     }
+    ,
+    {
+      "id": "9zd6",
+      "name": "test",
+      "phone": "0123456789",
+      "email": "test@test.com",
+      "password": "123"
+    }
   ]
 }

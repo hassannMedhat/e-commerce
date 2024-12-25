@@ -10,7 +10,7 @@ const Orders = () => {
       try {
         const response = await fetch(`http://localhost:4002/orders`);
         const data = await response.json();
-        const userOrders = data.filter(order => order.customerName === currentUser.name);
+        const userOrders = data.filter(order => order.userId === currentUser.id);
         setOrders(userOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);

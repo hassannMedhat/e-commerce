@@ -3,13 +3,14 @@ import DashboardOrders from './DashboardOrders';
 import DashAddProduct from './DashAddProduct';
 import DashboardUsers from './DashboardUsers';
 import DashboardStock from './DashboardStock';
-
+import { useContext } from "react";
+import { ShopContext } from "../context/ShopContext";
 
 
 const Dashboard = () => {
-  return (
-    <div className="flex">
-      <div className="w-64 bg-gray-800 min-h-screen p-4">
+  const { currentUser } = useContext(ShopContext);
+  if(currentUser) {return (
+    <div className="flex"><div className="w-64 bg-gray-800 min-h-screen p-4">
         <h2 className="text-white text-xl font-semibold mb-4">Dashboard</h2>
         <ul>
           <li><Link to="/dashboard/orders" className="text-gray-300 hover:text-white block py-2">Orders</Link></li>
@@ -28,9 +29,15 @@ const Dashboard = () => {
           <Route path="stock" element={<DashboardStock />} />
           <Route index element={<DashboardOverview />} />
         </Routes>
+        </div>
       </div>
-    </div>
-  );
+  )} else {return(
+    <div className="text-red-500 sm:text-5xl text-center mt-[10rem] ">
+Please log in to access the dashboard.
+</div>
+
+  )}
+  
 };
 
 const DashboardOverview = () => {

@@ -28,6 +28,8 @@ export default [
     },
     rules: {
       "react/no-unescaped-entities": "off", 
+      "@next/next/no-img-element": "off", 
+      "@next/next/no-page-custom-font": "off",
       "no-console": "warn", 
       "no-unused-vars": "warn",  
       "react/react-in-jsx-scope": "warn" ,

@@ -60,13 +60,24 @@ const PlaceOrder = () => {
     const orderId = generateUniqueId(); // Generate a unique order ID
 
     const newOrderData = {
-      id: orderId, // Use the generated unique ID
-      customerName: currentUser.name,
-      customerPhone: currentUser.phone,
-      items: orderData.items,
-      shippingFee: orderData.shippingFee,
-      totalAmount: orderData.totalAmount,
-    };
+      id: orderId, // معرف الطلب الفريد
+      userId: currentUser.id, // معرف الطلب الفريد
+      name: `${formData.firstName} ${formData.lastName}`, // الاسم الكامل
+      totalAmount: orderData.totalAmount, // المبلغ الإجمالي
+      items: orderData.items, // تفاصيل العناصر
+      date: new Date().toISOString(), // تاريخ الطلب بالتنسيق المطلوب
+      shippingDetails: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          street: formData.street,
+          city: formData.city,
+          country: formData.country,
+          phone: formData.phone,
+      },
+      paymentMethod: method, // طريقة الدفع
+  };
+  
 
     // Send new order to the API
     try {
