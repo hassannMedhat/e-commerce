@@ -1,24 +1,24 @@
 /* eslint-disable no-dupe-keys */
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    email: { type: String, required: true },
-    password: { type: String, required: false },
-    id: { type: String, required: true },
-    IsAdmin: { type: Boolean, required: true },
-    username: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    PhoneNumber: { type: String, required: false },
-    Cart: [
-        {
-            productId: { type: String, required: true },
-            quantity: { type: Number, default: 1 },
-            price: { type: Number, required: true },
-            name: { type: String, required: true },
-            Language: { type: String, required: true },
-            image: { type: String, required: true },
-        },
+  email: { type: String, required: true },
+  password: { type: String, required: false },
+  id: { type: String, required: false },
+  IsAdmin: { type: Boolean, required: false },
+  username: { type: String, required: false },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true } /* eslint-disable no-dupe-keys */,
+  PhoneNumber: { type: String, required: false },
+  Cart: [
+    {
+      productId: { type: String, required: true },
+      quantity: { type: Number, default: 1 },
+      price: { type: Number, required: true },
+      name: { type: String, required: true },
+      Language: { type: String, required: true },
+      image: { type: String, required: true },
+    },
   ],
   Wishlist: [
     {
@@ -44,12 +44,11 @@ const userSchema = new mongoose.Schema({
           name: { type: String, required: true },
           quantity: { type: Number, required: true },
         },
-    ],
+      ],
       Date: { type: Date, default: Date.now },
     },
   ],
 });
-
 
 function createModel(modelName, schema) {
   if (mongoose.models[modelName]) {
@@ -58,6 +57,6 @@ function createModel(modelName, schema) {
   return mongoose.model(modelName, schema);
 }
 
-const User = createModel('User', userSchema);
+const User = createModel("User", userSchema);
 
 export default User;

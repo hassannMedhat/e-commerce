@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import 'dotenv/config';
 
 const MONGODB_URI = process.env.mongoDB_URL;
 
@@ -24,7 +23,7 @@ async function dbConnect() {
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
-      console.error(`connected 🥳🥳🥳🥳`);
+      console.error(`connected🥳🥳🥳🥳`)
       return mongoose;
     });
   }

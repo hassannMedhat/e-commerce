@@ -13,6 +13,13 @@
       "phone": "123",
       "email": "hi@gmail.com",
       "password": "123"
+    },
+    {
+      "id": "5ad2",
+      "name": "Hassan",
+      "phone": "112",
+      "email": "s@s",
+      "password": "123"
     }
   ]
 }

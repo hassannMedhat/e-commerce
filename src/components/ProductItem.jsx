@@ -41,11 +41,7 @@ const ProductItem = ({ id, image, name, price, sizes = [] }) => {
           {typeof productPrice === 'number' ? `${productPrice.toFixed(2)} ` : productPrice + ` ${currency}`}
         </p>
         {/* Display total quantity with a message if it is 5 or less */}
-        {totalQuantity <= 5 && totalQuantity > 0 && (
-          <p className="text-red-600 mt-2 font-bold">
-            Only {totalQuantity} left in stock! Hurry up!
-          </p>
-        )}
+        
       </Link>
 
       <div className="absolute top-2 right-2 flex space-x-2">

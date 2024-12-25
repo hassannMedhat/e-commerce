@@ -1,131 +1,152 @@
-import { useState, useContext } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { ShopContext } from "../context/ShopContext"; // Import ShopContext
-import { toast } from "react-toastify";
+"use client";
 
-export const Login = () => {
-  const navigate = useNavigate();
-  const { setCurrentUser } = useContext(ShopContext); // Get setCurrentUser from context
-  const [currentState, setCurrentState] = useState("Login");
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
+import React, { useState } from "react";
+// import { useRouter } from "next/navigation";
 
-  const onSubmitHandler = async (event) => {
+const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  // const router = useRouter();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await handleFormSubmit();
-  };
 
-  const handleFormSubmit = async () => {
-    try {
-      let response;
-      if (currentState === "Login") {
-        response = await axios.get(
-          `http://localhost:4000/users?email=${formData.email}&password=${formData.password}`
-        );
-        const user = response.data[0];
-        if (user) {
-          setCurrentUser(user);
-          toast.success("Login successful");
-          navigate("/");
-        } else {
-          toast.error("Invalid email or password");
-        }
-      } else {
-        
-        const response = await axios.post('/api/signup', formData );
+    const data = {
+      email,
+      password,
+      firstName,
+      lastName,
+    };
 
-        if (response.ok) {
-          toast.success("Account created successfully");
-          setCurrentUser(formData);
-          navigate("/");
-        } else {
-          alert("Data submission failed");
-        }
-      }
-    } catch (error) {
-      console.error("There was an error!", error);
-      toast.error("An error occurred,  please try again later.");
+    if (!data.email || !data.password) {
+      setError("لازم تكتب الايميل والباسورد");
+      return;
+    }
+
+    const response = await fetch("http://localhost:5173/api/user/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.log('3amo samy');
+      console.log(errorResponse);
+      setError(errorResponse.error);
+    } else {
+      const result = await response.json();
+      setMessage(result.message);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
     }
   };
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
-    >
-      <div className="inline-flex items-center gap-2 mb-2 mt-10">
-        <p className="prata-regular text-3xl">{currentState}</p>
-        <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="bg-gray-800 bg-opacity-90 p-8 rounded-all shadow-md max-w-md w-full">
+        <h1 className="text-2xl font-bold mb-6 text-center text-white">
+          Sign Up
+        </h1>
+        <div className="signup-container">
+          <h1 className="block mb-2 text-xl font-medium text-red-500">
+            New User
+          </h1>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label
+                className="block mb-2 text-sm font-medium text-white"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="w-full px-4 py-2 border border-black rounded-all bg-gray-700 text-black focus:ring-blue-500 focus:border-blue-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                className="block mb-2 text-sm font-medium text-white"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="w-full px-4 py-2 border border-gray-600 rounded-all bg-gray-700 text-black focus:ring-blue-500 focus:border-blue-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                className="block mb-2 text-sm font-medium text-white"
+                htmlFor="firstName"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                className="w-full px-4 py-2 border border-gray-600 rounded-all bg-gray-700 text-black focus:ring-blue-500 focus:border-blue-500"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                className="block mb-2 text-sm font-medium text-white"
+                htmlFor="lastName"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                className="w-full px-4 py-2 border border-gray-600 rounded-all bg-gray-700 text-black focus:ring-blue-500 focus:border-blue-500"
+                value={lastName}
+                onChange={(e) => setlastName(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-all hover:bg-blue-700"
+            >
+              Submit
+            </button>
+          </form>
+          {}
+          <hr className="my-6 border-gray-300" />
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {message && <p style={{ color: "green" }}>{message}</p>}
+        </div>
       </div>
-      {currentState === "Sign Up" && (
-        <>
-          <input
-            className="w-full px-3 py-2 border border-gray-800"
-            type="text"
-            placeholder="Name"
-            required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-          <input
-            className="w-full px-3 py-2 border border-gray-800"
-            type="text"
-            placeholder="Phone"
-            required
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-          />
-        </>
-      )}
-      <input
-        className="w-full px-3 py-2 border border-gray-800"
-        type="email"
-        placeholder="Email"
-        required
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-      />
-      <input
-        className="w-full px-3 py-2 border border-gray-800"
-        type="password"
-        placeholder="Password"
-        required
-        value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-      />
-      <div className="w-full flex justify-between text-sm mt-[-8px]">
-        <p className="cursor-pointer">Forgot Password?</p>
-        {currentState === "Login" ? (
-          <p
-            onClick={() => setCurrentState("Sign Up")}
-            className="cursor-pointer"
-          >
-            Create account
-          </p>
-        ) : (
-          <p
-            onClick={() => setCurrentState("Login")}
-            className="cursor-pointer"
-          >
-            Login Here
-          </p>
-        )}
-      </div>
-      <button
-        type="submit"
-        className="bg-black text-white font-light px-8 py-2 mt-4"
-      >
-        {currentState === "Login" ? "Sign In" : "Sign Up"}
-      </button>
-    </form>
+    </div>
   );
 };
 
-export default Login;
+export default SignUp;
