@@ -1,4 +1,4 @@
-This site is not complete, as I am currently working on a larger project that will be announced soon.
+This site is not complete, only 40% finished.
 
 This site has several bugs that I haven't resolved due to my current project.
 
